@@ -1,6 +1,5 @@
 package com.tinqinacademy.comments.core.services;
 
-import com.tinqinacademy.comments.api.model.comment.CommentOutput;
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentInput;
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentOutput;
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentInput;
@@ -8,35 +7,30 @@ import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentOu
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsInput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOutput;
 import com.tinqinacademy.comments.api.services.HotelService;
+import com.tinqinacademy.comments.persistence.model.Comment;
+import com.tinqinacademy.comments.persistence.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class HotelServiceImpl implements HotelService {
+    private final CommentRepository commentRepository;
+    private final ConversionService conversionService;
 
     @Override
     public GetCommentsOutput getComments(GetCommentsInput input) {
         log.info("start getComments input:{}", input);
 
-        CommentOutput comment = CommentOutput.builder()
-                .id("123")
-                .firstName("Thomas")
-                .lastName("Jackson")
-                .content("Comment about room " + input.getRoomId())
-                .lastEditedDate(LocalDate.now())
-                .publishDate(LocalDate.now())
-                .lastEditedBy("visitor")
-                .build();
+        List<Comment> comment = commentRepository.findAllByRoomId(UUID.fromString(input.getRoomId()));
 
-        GetCommentsOutput output = GetCommentsOutput.builder()
-                .comments(List.of(comment))
-                .build();
+        GetCommentsOutput output = conversionService.convert(comment, GetCommentsOutput.class);
 
         log.info("end getComments result:{}", output);
         return output;
