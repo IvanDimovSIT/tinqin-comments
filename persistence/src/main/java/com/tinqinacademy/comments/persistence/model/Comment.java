@@ -27,7 +27,7 @@ public class Comment {
     @Column(name = "author_id", nullable = false)
     private UUID authorId;
 
-    @Column(name = "content", nullable = false, length = 1024)
+    @Column(name = "content", nullable = false, length = 1024, columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "last_edited_by_id", nullable = true)
