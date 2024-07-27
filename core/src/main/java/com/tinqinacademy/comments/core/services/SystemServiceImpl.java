@@ -44,6 +44,12 @@ public class SystemServiceImpl implements SystemService {
     public AdminDeleteCommentOutput adminDeleteComment(AdminDeleteCommentInput input) {
         log.info("start adminDeleteComment input:{}", input);
 
+        UUID commentId = UUID.fromString(input.getCommentId());
+        Comment commentToDelete = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException("Comment with id:"+input.getCommentId()+" not found"));
+
+        commentRepository.delete(commentToDelete);
+
         AdminDeleteCommentOutput output = AdminDeleteCommentOutput.builder()
                 .build();
 
