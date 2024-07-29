@@ -31,6 +31,7 @@ public class SystemServiceImpl implements SystemService {
         commentToEdit.setContent(input.getContent());
         //TODO: set lastEditedBy
         //TODO: set userId
+        //TODO: find room by room number and set roomId
 
         Comment editedComment = commentRepository.save(commentToEdit);
         AdminEditCommentOutput output = conversionService.convert(editedComment, AdminEditCommentOutput.class);
