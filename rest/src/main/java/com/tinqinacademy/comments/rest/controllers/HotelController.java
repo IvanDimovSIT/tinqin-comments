@@ -9,7 +9,6 @@ import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentSe
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsInput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOutput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsService;
-import com.tinqinacademy.comments.api.services.HotelService;
 import com.tinqinacademy.comments.api.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

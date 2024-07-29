@@ -6,7 +6,6 @@ import com.tinqinacademy.comments.api.operations.system.admindeletecomment.Admin
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentInput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentOutput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentService;
-import com.tinqinacademy.comments.api.services.SystemService;
 import com.tinqinacademy.comments.api.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
