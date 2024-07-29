@@ -2,8 +2,10 @@ package com.tinqinacademy.comments.rest.controllers;
 
 import com.tinqinacademy.comments.api.operations.system.admindeletecomment.AdminDeleteCommentInput;
 import com.tinqinacademy.comments.api.operations.system.admindeletecomment.AdminDeleteCommentOutput;
+import com.tinqinacademy.comments.api.operations.system.admindeletecomment.AdminDeleteCommentService;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentInput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentOutput;
+import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentService;
 import com.tinqinacademy.comments.api.services.SystemService;
 import com.tinqinacademy.comments.api.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 @RequiredArgsConstructor
 public class SystemController {
-    private final SystemService systemService;
+    private final AdminEditCommentService adminEditCommentService;
+    private final AdminDeleteCommentService adminDeleteCommentService;
 
     @Operation(summary = "Admin edits a comment", description = "Admin edits a certain comment left for a room")
     @ApiResponses(value = {
@@ -34,7 +37,7 @@ public class SystemController {
                 .commentId(commentId)
                 .build();
 
-        AdminEditCommentOutput output = systemService.adminEditComment(adminEditCommentInput);
+        AdminEditCommentOutput output = adminEditCommentService.process(adminEditCommentInput);
 
         return new ResponseEntity<>(
                 output,
@@ -54,7 +57,7 @@ public class SystemController {
                 .commentId(commentId)
                 .build();
 
-        AdminDeleteCommentOutput output = systemService.adminDeleteComment(input);
+        AdminDeleteCommentOutput output = adminDeleteCommentService.process(input);
 
         return new ResponseEntity<>(
                 output,

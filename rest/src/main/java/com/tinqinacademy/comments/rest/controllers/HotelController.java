@@ -2,10 +2,13 @@ package com.tinqinacademy.comments.rest.controllers;
 
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentInput;
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentOutput;
+import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentService;
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentOutput;
+import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentService;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsInput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOutput;
+import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsService;
 import com.tinqinacademy.comments.api.services.HotelService;
 import com.tinqinacademy.comments.api.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 @RequiredArgsConstructor
 public class HotelController {
-    private final HotelService hotelService;
+    private final GetCommentsService getCommentsService;
+    private final AddCommentService addCommentService;
+    private final EditCommentService editCommentService;
 
     @Operation(summary = "Retrieves comments", description = "Gets a list of comments left for a certain room")
     @ApiResponses(value = {
@@ -34,7 +39,7 @@ public class HotelController {
                 .roomId(roomId)
                 .build();
 
-        GetCommentsOutput output = hotelService.getComments(input);
+        GetCommentsOutput output = getCommentsService.process(input);
 
         return new ResponseEntity<>(
                 output,
@@ -53,7 +58,7 @@ public class HotelController {
                 .roomId(roomId)
                 .build();
 
-        AddCommentOutput output = hotelService.addComment(addCommentInput);
+        AddCommentOutput output = addCommentService.process(addCommentInput);
 
         return new ResponseEntity<>(
                 output,
@@ -73,7 +78,7 @@ public class HotelController {
                 .commentId(commentId)
                 .build();
 
-        EditCommentOutput output = hotelService.editComment(editCommentInput);
+        EditCommentOutput output = editCommentService.process(editCommentInput);
 
         return new ResponseEntity<>(
                 output,
