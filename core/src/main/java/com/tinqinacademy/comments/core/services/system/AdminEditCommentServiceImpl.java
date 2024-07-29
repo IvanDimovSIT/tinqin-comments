@@ -1,10 +1,8 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.services.system;
 
-import com.tinqinacademy.comments.api.operations.system.admindeletecomment.AdminDeleteCommentInput;
-import com.tinqinacademy.comments.api.operations.system.admindeletecomment.AdminDeleteCommentOutput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentInput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentOutput;
-import com.tinqinacademy.comments.api.services.SystemService;
+import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentService;
 import com.tinqinacademy.comments.core.exception.exceptions.NotFoundException;
 import com.tinqinacademy.comments.persistence.model.Comment;
 import com.tinqinacademy.comments.persistence.repository.CommentRepository;
@@ -16,14 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
-public class SystemServiceImpl implements SystemService {
-    private final ConversionService conversionService;
+@Slf4j
+public class AdminEditCommentServiceImpl implements AdminEditCommentService {
     private final CommentRepository commentRepository;
+    private final ConversionService conversionService;
 
     @Override
-    public AdminEditCommentOutput adminEditComment(AdminEditCommentInput input) {
+    public AdminEditCommentOutput process(AdminEditCommentInput input) {
         log.info("start adminEditComment input:{}", input);
 
         Comment commentToEdit = commentRepository.findById(UUID.fromString(input.getCommentId()))
@@ -37,24 +35,6 @@ public class SystemServiceImpl implements SystemService {
         AdminEditCommentOutput output = conversionService.convert(editedComment, AdminEditCommentOutput.class);
 
         log.info("end adminEditComment result:{}", output);
-
-        return output;
-    }
-
-    @Override
-    public AdminDeleteCommentOutput adminDeleteComment(AdminDeleteCommentInput input) {
-        log.info("start adminDeleteComment input:{}", input);
-
-        UUID commentId = UUID.fromString(input.getCommentId());
-        Comment commentToDelete = commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundException("Comment with id:"+input.getCommentId()+" not found"));
-
-        commentRepository.delete(commentToDelete);
-
-        AdminDeleteCommentOutput output = AdminDeleteCommentOutput.builder()
-                .build();
-
-        log.info("end adminDeleteComment result:{}", output);
 
         return output;
     }
