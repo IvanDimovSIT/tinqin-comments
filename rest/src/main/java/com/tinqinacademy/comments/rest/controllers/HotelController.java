@@ -1,18 +1,21 @@
 package com.tinqinacademy.comments.rest.controllers;
 
+import com.tinqinacademy.comments.api.errors.Errors;
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentInput;
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentOutput;
-import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentService;
+import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentOperation;
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentOutput;
-import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentService;
+import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentOperation;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsInput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOutput;
-import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsService;
+import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOperation;
 import com.tinqinacademy.comments.api.RestApiRoutes;
+import com.tinqinacademy.comments.core.response.ResponseEntityMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.vavr.control.Either;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +26,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 @RequiredArgsConstructor
 public class HotelController {
-    private final GetCommentsService getCommentsService;
-    private final AddCommentService addCommentService;
-    private final EditCommentService editCommentService;
+    private final GetCommentsOperation getCommentsOperation;
+    private final AddCommentOperation addCommentOperation;
+    private final EditCommentOperation editCommentOperation;
+    private final ResponseEntityMapper responseEntityMapper;
 
     @Operation(summary = "Retrieves comments", description = "Gets a list of comments left for a certain room")
     @ApiResponses(value = {
@@ -38,12 +42,8 @@ public class HotelController {
                 .roomId(roomId)
                 .build();
 
-        GetCommentsOutput output = getCommentsService.process(input);
-
-        return new ResponseEntity<>(
-                output,
-                HttpStatus.OK
-        );
+        Either<Errors, GetCommentsOutput> output = getCommentsOperation.process(input);
+        return responseEntityMapper.mapToResponseEntity(output, HttpStatus.OK);
     }
 
     @Operation(summary = "Leaves a comment", description = "Leaves a comment regarding a certain room")
@@ -57,12 +57,8 @@ public class HotelController {
                 .roomId(roomId)
                 .build();
 
-        AddCommentOutput output = addCommentService.process(addCommentInput);
-
-        return new ResponseEntity<>(
-                output,
-                HttpStatus.CREATED
-        );
+        Either<Errors, AddCommentOutput> output = addCommentOperation.process(addCommentInput);
+        return responseEntityMapper.mapToResponseEntity(output, HttpStatus.CREATED);
     }
 
     @Operation(summary = "User edits a comment", description = "User can edit own comment left for certain room. " +
@@ -77,12 +73,8 @@ public class HotelController {
                 .commentId(commentId)
                 .build();
 
-        EditCommentOutput output = editCommentService.process(editCommentInput);
-
-        return new ResponseEntity<>(
-                output,
-                HttpStatus.OK
-        );
+        Either<Errors, EditCommentOutput> output = editCommentOperation.process(editCommentInput);
+        return responseEntityMapper.mapToResponseEntity(output, HttpStatus.OK);
     }
 
 }
