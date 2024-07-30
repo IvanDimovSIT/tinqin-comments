@@ -1,6 +1,9 @@
 package com.tinqinacademy.comments.api.operations.hotel.addcomment;
 
+import com.tinqinacademy.comments.api.base.OperationOutput;
 import lombok.*;
+
+import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -8,6 +11,6 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class AddCommentOutput {
+public class AddCommentOutput implements OperationOutput {
     private String id;
 }

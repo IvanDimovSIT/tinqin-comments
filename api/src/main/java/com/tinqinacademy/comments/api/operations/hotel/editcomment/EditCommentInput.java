@@ -1,6 +1,7 @@
 package com.tinqinacademy.comments.api.operations.hotel.editcomment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tinqinacademy.comments.api.base.OperationInput;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class EditCommentInput {
+public class EditCommentInput implements OperationInput {
     @JsonIgnore
     private String commentId;
     @NotEmpty

@@ -1,5 +1,6 @@
 package com.tinqinacademy.comments.api.operations.system.admindeletecomment;
 
+import com.tinqinacademy.comments.api.base.OperationOutput;
 import lombok.*;
 
 @AllArgsConstructor
@@ -7,5 +8,5 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class AdminDeleteCommentOutput {
+public class AdminDeleteCommentOutput implements OperationOutput {
 }
