@@ -44,6 +44,7 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
         log.info("start adminEditComment input:{}", input);
 
         Either<Errors, AdminEditCommentOutput> result = Try.of(() -> {
+                    validate(input);
                     Comment commentToEdit = getComment(input.getCommentId());
                     commentToEdit.setContent(input.getContent());
                     //TODO: set lastEditedBy

@@ -44,6 +44,7 @@ public class EditCommentOperationProcessor extends BaseOperationProcessor implem
         log.info("start editComment input:{}", input);
 
         Either<Errors, EditCommentOutput> result = Try.of(() -> {
+                    validate(input);
                     Comment comment = getComment(input.getCommentId());
                     comment.setContent(input.getContent());
                     Comment editedComment = commentRepository.save(comment);

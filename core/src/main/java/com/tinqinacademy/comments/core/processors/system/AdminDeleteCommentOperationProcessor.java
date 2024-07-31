@@ -44,6 +44,7 @@ public class AdminDeleteCommentOperationProcessor extends BaseOperationProcessor
         log.info("start adminDeleteComment input:{}", input);
 
         Either<Errors, AdminDeleteCommentOutput> result = Try.of(() -> {
+                    validate(input);
                     Comment commentToDelete = getComment(input.getCommentId());
 
                     commentRepository.delete(commentToDelete);
