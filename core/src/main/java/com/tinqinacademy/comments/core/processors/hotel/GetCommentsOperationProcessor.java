@@ -37,6 +37,7 @@ public class GetCommentsOperationProcessor extends BaseOperationProcessor implem
         log.info("start getComments input:{}", input);
 
         Either<Errors, GetCommentsOutput> result = Try.of(() -> {
+                    validate(input);
                     List<Comment> comments = commentRepository.findAllByRoomId(UUID.fromString(input.getRoomId()));
 
                     return conversionService.convert(comments, GetCommentsOutput.class);
