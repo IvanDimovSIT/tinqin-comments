@@ -11,7 +11,6 @@ import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsIn
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOutput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOperation;
 import com.tinqinacademy.comments.api.RestApiRoutes;
-import com.tinqinacademy.comments.core.response.ResponseEntityMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,11 +24,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-public class HotelController {
+public class HotelController extends BaseController {
     private final GetCommentsOperation getCommentsOperation;
     private final AddCommentOperation addCommentOperation;
     private final EditCommentOperation editCommentOperation;
-    private final ResponseEntityMapper responseEntityMapper;
 
     @Operation(summary = "Retrieves comments", description = "Gets a list of comments left for a certain room")
     @ApiResponses(value = {
@@ -43,7 +41,7 @@ public class HotelController {
                 .build();
 
         Either<Errors, GetCommentsOutput> output = getCommentsOperation.process(input);
-        return responseEntityMapper.mapToResponseEntity(output, HttpStatus.OK);
+        return mapToResponseEntity(output, HttpStatus.OK);
     }
 
     @Operation(summary = "Leaves a comment", description = "Leaves a comment regarding a certain room")
@@ -58,7 +56,7 @@ public class HotelController {
                 .build();
 
         Either<Errors, AddCommentOutput> output = addCommentOperation.process(addCommentInput);
-        return responseEntityMapper.mapToResponseEntity(output, HttpStatus.CREATED);
+        return mapToResponseEntity(output, HttpStatus.CREATED);
     }
 
     @Operation(summary = "User edits a comment", description = "User can edit own comment left for certain room. " +
@@ -74,7 +72,7 @@ public class HotelController {
                 .build();
 
         Either<Errors, EditCommentOutput> output = editCommentOperation.process(editCommentInput);
-        return responseEntityMapper.mapToResponseEntity(output, HttpStatus.OK);
+        return mapToResponseEntity(output, HttpStatus.OK);
     }
 
 }

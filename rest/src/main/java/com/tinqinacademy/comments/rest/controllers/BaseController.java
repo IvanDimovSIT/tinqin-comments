@@ -1,27 +1,26 @@
-package com.tinqinacademy.comments.core.response;
+package com.tinqinacademy.comments.rest.controllers;
 
 
 import com.tinqinacademy.comments.api.base.OperationOutput;
 import com.tinqinacademy.comments.api.errors.Errors;
 import io.vavr.control.Either;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-
-@Component
-@Slf4j
-public class ResponseEntityMapperImpl implements ResponseEntityMapper {
 
 
-    @Override
-    public <T extends OperationOutput> ResponseEntity<?> mapToResponseEntity(Either<Errors, T> either, HttpStatus status) {
+public abstract class BaseController {
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    protected <T extends OperationOutput> ResponseEntity<?> mapToResponseEntity(Either<Errors, T> either, HttpStatus status) {
         log.info("Start mapToResponseEntity input: {}, status: {}", either, status);
         ResponseEntity<?> result;
         if (either.isRight()) {
             result = new ResponseEntity<>(either.get(), status);
         }else{
             Errors errors = either.getLeft();
+            log.error(errors.toString());
             result = new ResponseEntity<>(errors.getErrorInfos(), errors.getStatus());
         }
 
