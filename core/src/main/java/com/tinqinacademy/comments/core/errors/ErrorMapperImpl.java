@@ -3,6 +3,7 @@ package com.tinqinacademy.comments.core.errors;
 
 import com.tinqinacademy.comments.api.errors.Errors;
 import com.tinqinacademy.comments.core.exception.BaseException;
+import com.tinqinacademy.comments.core.exception.exceptions.ViolationException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -13,14 +14,6 @@ import static io.vavr.Predicates.instanceOf;
 @Component
 public class ErrorMapperImpl implements ErrorMapper {
 
-    private Errors convertConstraintViolationException(Throwable throwable) {
-        ConstraintViolationException exception = (ConstraintViolationException) throwable;
-        Errors.ErrorsBuilder errors = Errors.builder();
-        exception.getConstraintViolations()
-                .forEach(violation -> errors.error(violation.getMessage(), HttpStatus.BAD_REQUEST));
-
-        return errors.build();
-    }
 
     private Errors convertExceptionHttpStatus(Throwable throwable) {
         BaseException exception = (BaseException) throwable;
@@ -32,15 +25,26 @@ public class ErrorMapperImpl implements ErrorMapper {
 
     private Errors convertDefaultException(Throwable throwable) {
         return Errors.builder()
-                .error(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
+                .error(throwable.getMessage(), HttpStatus.BAD_REQUEST)
                 .build();
+    }
+
+    private Errors convertViolationException(Throwable throwable) {
+        ViolationException exception = (ViolationException) throwable;
+
+        Errors.ErrorsBuilder errors = Errors.builder();
+        exception.getErrors()
+                .forEach(error -> errors.error(error, HttpStatus.BAD_REQUEST));
+
+        return errors.build();
+
     }
 
     @Override
     public Errors map(Throwable throwable) {
         return Match(throwable).of(
-                Case($(instanceOf(ConstraintViolationException.class)),
-                        this::convertConstraintViolationException
+                Case($(instanceOf(ViolationException.class)),
+                        this::convertViolationException
                 ),
                 Case($(instanceOf(BaseException.class)),
                         this::convertExceptionHttpStatus

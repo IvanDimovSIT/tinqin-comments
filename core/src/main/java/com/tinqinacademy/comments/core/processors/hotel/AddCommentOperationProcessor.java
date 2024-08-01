@@ -32,24 +32,17 @@ public class AddCommentOperationProcessor extends BaseOperationProcessor impleme
 
     @Override
     public Either<Errors, AddCommentOutput> process(AddCommentInput input) {
-        log.info("start addComment input:{}", input);
-
-        Either<Errors, AddCommentOutput> result = Try.of(() -> {
+        return Try.of(() -> {
+                    log.info("start addComment input:{}", input);
                     validate(input);
                     Comment comment = conversionService.convert(input, Comment.class);
                     Comment addedComment = commentRepository.save(comment);
 
-                    return conversionService.convert(addedComment, AddCommentOutput.class);
+                    AddCommentOutput result = conversionService.convert(addedComment, AddCommentOutput.class);
+                    log.info("end addComment result:{}", result);
+                    return result;
                 })
                 .toEither()
-                .mapLeft(throwable -> Match(throwable).of(
-                        Case($(), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-                                .build()
-                        )
-                ));
-        log.info("end addComment result:{}", result);
-
-        return result;
+                .mapLeft(errorMapper::map);
     }
 }

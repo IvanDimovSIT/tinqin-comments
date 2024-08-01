@@ -41,31 +41,19 @@ public class AdminDeleteCommentOperationProcessor extends BaseOperationProcessor
 
     @Override
     public Either<Errors, AdminDeleteCommentOutput> process(AdminDeleteCommentInput input) {
-        log.info("start adminDeleteComment input:{}", input);
-
-        Either<Errors, AdminDeleteCommentOutput> result = Try.of(() -> {
+        return Try.of(() -> {
+                    log.info("start adminDeleteComment input:{}", input);
                     validate(input);
                     Comment commentToDelete = getComment(input.getCommentId());
 
                     commentRepository.delete(commentToDelete);
 
-                    return AdminDeleteCommentOutput.builder()
+                    AdminDeleteCommentOutput result = AdminDeleteCommentOutput.builder()
                             .build();
+                    log.info("end adminDeleteComment result:{}", result);
+                    return result;
                 })
                 .toEither()
-                .mapLeft(throwable -> Match(throwable).of(
-                        Case($(instanceOf(NotFoundException.class)), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.NOT_FOUND)
-                                .build()
-                        ),
-                        Case($(), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-                                .build()
-                        )
-                ));
-
-        log.info("end adminDeleteComment result:{}", result);
-
-        return result;
+                .mapLeft(errorMapper::map);
     }
 }

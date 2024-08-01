@@ -50,7 +50,7 @@ public class HotelController extends BaseController {
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PostMapping(RestApiRoutes.HOTEL_ADD_COMMENT)
-    public ResponseEntity<?> addComment(@PathVariable String roomId, @RequestBody @Valid AddCommentInput input) {
+    public ResponseEntity<?> addComment(@PathVariable String roomId, @RequestBody AddCommentInput input) {
         AddCommentInput addCommentInput = input.toBuilder()
                 .roomId(roomId)
                 .build();
@@ -66,7 +66,7 @@ public class HotelController extends BaseController {
             @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PatchMapping(RestApiRoutes.HOTEL_EDIT_COMMENT)
-    public ResponseEntity<?> editComment(@PathVariable String commentId, @RequestBody @Valid EditCommentInput input) {
+    public ResponseEntity<?> editComment(@PathVariable String commentId, @RequestBody EditCommentInput input) {
         EditCommentInput editCommentInput = input.toBuilder()
                 .commentId(commentId)
                 .build();
