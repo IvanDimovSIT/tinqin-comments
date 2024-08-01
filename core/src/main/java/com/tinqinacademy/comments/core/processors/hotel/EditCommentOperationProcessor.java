@@ -41,30 +41,18 @@ public class EditCommentOperationProcessor extends BaseOperationProcessor implem
 
     @Override
     public Either<Errors, EditCommentOutput> process(EditCommentInput input) {
-        log.info("start editComment input:{}", input);
-
-        Either<Errors, EditCommentOutput> result = Try.of(() -> {
+        return Try.of(() -> {
+                    log.info("start editComment input:{}", input);
                     validate(input);
                     Comment comment = getComment(input.getCommentId());
                     comment.setContent(input.getContent());
                     Comment editedComment = commentRepository.save(comment);
 
-                    return conversionService.convert(editedComment, EditCommentOutput.class);
+                    EditCommentOutput result = conversionService.convert(editedComment, EditCommentOutput.class);
+                    log.info("end editComment result:{}", result);
+                    return result;
                 })
                 .toEither()
-                .mapLeft(throwable -> Match(throwable).of(
-                        Case($(instanceOf(NotFoundException.class)), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.NOT_FOUND)
-                                .build()
-                        ),
-                        Case($(), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-                                .build()
-                        )
-                ));
-
-        log.info("end editComment result:{}", result);
-
-        return result;
+                .mapLeft(errorMapper::map);
     }
 }

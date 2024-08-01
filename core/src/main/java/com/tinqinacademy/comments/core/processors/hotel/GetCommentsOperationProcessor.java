@@ -34,23 +34,16 @@ public class GetCommentsOperationProcessor extends BaseOperationProcessor implem
 
     @Override
     public Either<Errors, GetCommentsOutput> process(GetCommentsInput input) {
-        log.info("start getComments input:{}", input);
-
-        Either<Errors, GetCommentsOutput> result = Try.of(() -> {
+        return Try.of(() -> {
+                    log.info("start getComments input:{}", input);
                     validate(input);
                     List<Comment> comments = commentRepository.findAllByRoomId(UUID.fromString(input.getRoomId()));
 
-                    return conversionService.convert(comments, GetCommentsOutput.class);
+                    GetCommentsOutput result = conversionService.convert(comments, GetCommentsOutput.class);
+                    log.info("end getComments result:{}", result);
+                    return result;
                 })
                 .toEither()
-                .mapLeft(throwable -> Match(throwable).of(
-                        Case($(), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-                                .build()
-                        )
-                ));
-
-        log.info("end getComments result:{}", result);
-        return result;
+                .mapLeft(errorMapper::map);
     }
 }

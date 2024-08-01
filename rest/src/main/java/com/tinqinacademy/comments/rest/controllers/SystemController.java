@@ -33,7 +33,7 @@ public class SystemController extends BaseController {
     @PutMapping(RestApiRoutes.SYSTEM_ADMIN_EDIT_COMMENT)
     public ResponseEntity<?> adminEditComment(
             @PathVariable String commentId,
-            @RequestBody @Valid AdminEditCommentInput input) {
+            @RequestBody AdminEditCommentInput input) {
         AdminEditCommentInput adminEditCommentInput = input.toBuilder()
                 .commentId(commentId)
                 .build();

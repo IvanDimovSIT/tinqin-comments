@@ -41,9 +41,8 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
 
     @Override
     public Either<Errors, AdminEditCommentOutput> process(AdminEditCommentInput input) {
-        log.info("start adminEditComment input:{}", input);
-
-        Either<Errors, AdminEditCommentOutput> result = Try.of(() -> {
+        return Try.of(() -> {
+                    log.info("start adminEditComment input:{}", input);
                     validate(input);
                     Comment commentToEdit = getComment(input.getCommentId());
                     commentToEdit.setContent(input.getContent());
@@ -52,22 +51,12 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
                     //TODO: find room by room number and set roomId
 
                     Comment editedComment = commentRepository.save(commentToEdit);
-                    return conversionService.convert(editedComment, AdminEditCommentOutput.class);
+                    AdminEditCommentOutput result = conversionService.convert(editedComment, AdminEditCommentOutput.class);
+                    log.info("end adminEditComment result:{}", result);
+
+                    return result;
                 })
                 .toEither()
-                .mapLeft(throwable -> Match(throwable).of(
-                        Case($(instanceOf(NotFoundException.class)), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.NOT_FOUND)
-                                .build()
-                        ),
-                        Case($(), Errors.builder()
-                                .error(throwable.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-                                .build()
-                        )
-                ));
-
-        log.info("end adminEditComment result:{}", result);
-
-        return result;
+                .mapLeft(errorMapper::map);
     }
 }
