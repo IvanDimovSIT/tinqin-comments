@@ -2,9 +2,8 @@ package com.tinqinacademy.comments.core.errors;
 
 
 import com.tinqinacademy.comments.api.errors.Errors;
-import com.tinqinacademy.comments.core.exception.BaseException;
-import com.tinqinacademy.comments.core.exception.exceptions.ViolationException;
-import jakarta.validation.ConstraintViolationException;
+import com.tinqinacademy.comments.api.exception.BaseException;
+import com.tinqinacademy.comments.api.exception.exceptions.ViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 

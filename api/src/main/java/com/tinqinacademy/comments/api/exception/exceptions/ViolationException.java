@@ -1,4 +1,4 @@
-package com.tinqinacademy.comments.core.exception.exceptions;
+package com.tinqinacademy.comments.api.exception.exceptions;
 
 import lombok.Getter;
 

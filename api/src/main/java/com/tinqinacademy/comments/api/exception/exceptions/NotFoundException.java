@@ -1,7 +1,7 @@
-package com.tinqinacademy.comments.core.exception.exceptions;
+package com.tinqinacademy.comments.api.exception.exceptions;
 
 
-import com.tinqinacademy.comments.core.exception.BaseException;
+import com.tinqinacademy.comments.api.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class NotFoundException extends BaseException {

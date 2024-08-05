@@ -3,9 +3,8 @@ package com.tinqinacademy.comments.core.processors;
 
 import com.tinqinacademy.comments.api.base.OperationInput;
 import com.tinqinacademy.comments.core.errors.ErrorMapper;
-import com.tinqinacademy.comments.core.exception.exceptions.ViolationException;
+import com.tinqinacademy.comments.api.exception.exceptions.ViolationException;
 import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;

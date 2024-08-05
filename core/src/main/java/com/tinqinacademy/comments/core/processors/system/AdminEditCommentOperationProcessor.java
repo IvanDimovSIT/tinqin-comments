@@ -5,23 +5,18 @@ import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEd
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentOutput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentOperation;
 import com.tinqinacademy.comments.core.errors.ErrorMapper;
-import com.tinqinacademy.comments.core.exception.exceptions.NotFoundException;
+import com.tinqinacademy.comments.api.exception.exceptions.NotFoundException;
 import com.tinqinacademy.comments.core.processors.BaseOperationProcessor;
 import com.tinqinacademy.comments.persistence.model.Comment;
 import com.tinqinacademy.comments.persistence.repository.CommentRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-
-import static io.vavr.API.*;
-import static io.vavr.Predicates.instanceOf;
 
 @Service
 @Slf4j
