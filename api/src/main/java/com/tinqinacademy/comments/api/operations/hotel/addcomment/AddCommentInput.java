@@ -16,11 +16,5 @@ public class AddCommentInput implements OperationInput {
     @JsonIgnore
     private String roomId;
     @NotEmpty
-    @Size(min = 2, max = 50)
-    private String firstName;
-    @NotEmpty
-    @Size(min = 2, max = 50)
-    private String lastName;
-    @NotEmpty
     private String content;
 }

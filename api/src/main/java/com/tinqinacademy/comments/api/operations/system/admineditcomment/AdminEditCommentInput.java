@@ -17,14 +17,7 @@ public class AdminEditCommentInput implements OperationInput {
     @JsonIgnore
     private String commentId;
     @NotEmpty
-    @Pattern(regexp = "[0-9]{1,5}[A-Z]?")
-    private String roomNumber;
-    @NotEmpty
-    @Size(min = 2, max = 50)
-    private String firstName;
-    @NotEmpty
-    @Size(min = 2, max = 50)
-    private String lastName;
+    private String roomId;
     @NotEmpty
     private String content;
 }
