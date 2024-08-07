@@ -43,7 +43,7 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
                     commentToEdit.setContent(input.getContent());
                     //TODO: set lastEditedBy
                     //TODO: set userId
-                    //TODO: find room by room number and set roomId
+                    commentToEdit.setRoomId(UUID.fromString(input.getRoomId()));
 
                     Comment editedComment = commentRepository.save(commentToEdit);
                     AdminEditCommentOutput result = conversionService.convert(editedComment, AdminEditCommentOutput.class);

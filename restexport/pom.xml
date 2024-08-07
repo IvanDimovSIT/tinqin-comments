@@ -14,7 +14,11 @@
     <description>comments-restexport-module</description>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.tinqinacademy.comments</groupId>
+            <artifactId>api</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 
