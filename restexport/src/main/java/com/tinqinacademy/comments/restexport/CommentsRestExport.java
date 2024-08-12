@@ -8,6 +8,7 @@ import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentIn
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsInput;
 import com.tinqinacademy.comments.api.operations.hotel.getcomments.GetCommentsOutput;
+import com.tinqinacademy.comments.api.operations.system.admindeletecomment.AdminDeleteCommentOutput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentInput;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentOutput;
 import feign.Headers;
@@ -41,6 +42,6 @@ public interface CommentsRestExport {
 
 
     @RequestLine("DELETE /api/v1/system/comment/{commentId}")
-    ResponseEntity<?> adminDeleteComment(@Param("commentId") String commentId);
+    AdminDeleteCommentOutput adminDeleteComment(@Param("commentId") String commentId);
 
 }
