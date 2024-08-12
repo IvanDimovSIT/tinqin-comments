@@ -17,6 +17,8 @@ public class AdminEditCommentInput implements OperationInput {
     @JsonIgnore
     private String commentId;
     @NotEmpty
+    private String adminId;
+    @NotEmpty
     private String roomId;
     @NotEmpty
     private String content;

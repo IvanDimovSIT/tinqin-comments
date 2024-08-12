@@ -15,7 +15,7 @@ public class AddCommentInputToCommentConverter extends BaseConverter<AddCommentI
         Comment comment = Comment.builder()
                 .roomId(UUID.fromString(source.getRoomId()))
                 .content(source.getContent())
-                .authorId(UUID.randomUUID()) // TODO: use data from user
+                .authorId(UUID.fromString(source.getAuthorId()))
                 .build();
 
         return comment;

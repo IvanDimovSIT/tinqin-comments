@@ -15,5 +15,7 @@ public class EditCommentInput implements OperationInput {
     @JsonIgnore
     private String commentId;
     @NotEmpty
+    private String authorId;
+    @NotEmpty
     private String content;
 }

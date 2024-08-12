@@ -53,6 +53,7 @@ public class HotelController extends BaseController {
     public ResponseEntity<?> addComment(@PathVariable String roomId, @RequestBody AddCommentInput input) {
         AddCommentInput addCommentInput = input.toBuilder()
                 .roomId(roomId)
+                .authorId(input.getAuthorId())
                 .build();
 
         Either<Errors, AddCommentOutput> output = addCommentOperation.process(addCommentInput);
@@ -69,6 +70,7 @@ public class HotelController extends BaseController {
     public ResponseEntity<?> editComment(@PathVariable String commentId, @RequestBody EditCommentInput input) {
         EditCommentInput editCommentInput = input.toBuilder()
                 .commentId(commentId)
+                .authorId(input.getAuthorId())
                 .build();
 
         Either<Errors, EditCommentOutput> output = editCommentOperation.process(editCommentInput);
