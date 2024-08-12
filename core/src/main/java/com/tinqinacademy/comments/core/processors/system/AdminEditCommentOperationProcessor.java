@@ -37,7 +37,7 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
     @Override
     public Either<Errors, AdminEditCommentOutput> process(AdminEditCommentInput input) {
         return Try.of(() -> {
-                    log.info("start adminEditComment input:{}", input);
+                    log.info("Start adminEditComment input:{}", input);
                     validate(input);
                     Comment commentToEdit = getComment(input.getCommentId());
                     commentToEdit.setContent(input.getContent());
@@ -46,7 +46,7 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
 
                     Comment editedComment = commentRepository.save(commentToEdit);
                     AdminEditCommentOutput result = conversionService.convert(editedComment, AdminEditCommentOutput.class);
-                    log.info("end adminEditComment result:{}", result);
+                    log.info("End adminEditComment result:{}", result);
 
                     return result;
                 })

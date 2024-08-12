@@ -4,6 +4,7 @@ import com.tinqinacademy.comments.api.base.OperationOutput;
 import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 @ToString
 @Getter
