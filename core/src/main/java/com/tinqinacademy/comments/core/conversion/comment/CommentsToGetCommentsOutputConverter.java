@@ -18,7 +18,7 @@ public class CommentsToGetCommentsOutputConverter extends BaseConverter<List<Com
                         .content(comment.getContent())
                         .lastEditedBy(comment.getLastEditedById() == null? null:
                                 comment.getLastEditedById().toString())
-                        .lastEditedDate(comment.getLastModified().toLocalDate())
+                        .lastEditedDate(comment.getLastModified().toLocalDate()) //TODO: change to author id?
                         .publishDate(comment.getCreated().toLocalDate())
                         .firstName(comment.getAuthorId().toString())
                         .lastName(comment.getAuthorId().toString())
