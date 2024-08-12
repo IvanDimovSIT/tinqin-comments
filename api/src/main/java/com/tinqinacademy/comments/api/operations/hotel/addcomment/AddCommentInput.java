@@ -16,5 +16,7 @@ public class AddCommentInput implements OperationInput {
     @JsonIgnore
     private String roomId;
     @NotEmpty
+    private String authorId;
+    @NotEmpty
     private String content;
 }

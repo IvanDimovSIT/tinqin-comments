@@ -41,6 +41,7 @@ public class EditCommentOperationProcessor extends BaseOperationProcessor implem
                     validate(input);
                     Comment comment = getComment(input.getCommentId());
                     comment.setContent(input.getContent());
+                    comment.setLastEditedById(UUID.fromString(input.getAuthorId()));
                     Comment editedComment = commentRepository.save(comment);
 
                     EditCommentOutput result = conversionService.convert(editedComment, EditCommentOutput.class);

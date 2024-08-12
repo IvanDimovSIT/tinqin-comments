@@ -41,8 +41,7 @@ public class AdminEditCommentOperationProcessor extends BaseOperationProcessor i
                     validate(input);
                     Comment commentToEdit = getComment(input.getCommentId());
                     commentToEdit.setContent(input.getContent());
-                    //TODO: set lastEditedBy
-                    //TODO: set userId
+                    commentToEdit.setLastEditedById(UUID.fromString(input.getAdminId()));
                     commentToEdit.setRoomId(UUID.fromString(input.getRoomId()));
 
                     Comment editedComment = commentRepository.save(commentToEdit);
