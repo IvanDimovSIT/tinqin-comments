@@ -36,7 +36,6 @@ public class SystemController extends BaseController {
             @RequestBody AdminEditCommentInput input) {
         AdminEditCommentInput adminEditCommentInput = input.toBuilder()
                 .commentId(commentId)
-                .adminId(input.getAdminId())
                 .build();
 
         Either<Errors, AdminEditCommentOutput> output = adminEditCommentOperation.process(adminEditCommentInput);
