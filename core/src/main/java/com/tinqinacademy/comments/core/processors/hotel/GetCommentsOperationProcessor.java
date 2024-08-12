@@ -35,12 +35,12 @@ public class GetCommentsOperationProcessor extends BaseOperationProcessor implem
     @Override
     public Either<Errors, GetCommentsOutput> process(GetCommentsInput input) {
         return Try.of(() -> {
-                    log.info("start getComments input:{}", input);
+                    log.info("Start getComments input:{}", input);
                     validate(input);
                     List<Comment> comments = commentRepository.findAllByRoomId(UUID.fromString(input.getRoomId()));
 
                     GetCommentsOutput result = conversionService.convert(comments, GetCommentsOutput.class);
-                    log.info("end getComments result:{}", result);
+                    log.info("End getComments result:{}", result);
                     return result;
                 })
                 .toEither()

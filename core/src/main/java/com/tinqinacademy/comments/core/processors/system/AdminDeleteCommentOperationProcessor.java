@@ -37,7 +37,7 @@ public class AdminDeleteCommentOperationProcessor extends BaseOperationProcessor
     @Override
     public Either<Errors, AdminDeleteCommentOutput> process(AdminDeleteCommentInput input) {
         return Try.of(() -> {
-                    log.info("start adminDeleteComment input:{}", input);
+                    log.info("Start adminDeleteComment input:{}", input);
                     validate(input);
                     Comment commentToDelete = getComment(input.getCommentId());
 
@@ -45,7 +45,7 @@ public class AdminDeleteCommentOperationProcessor extends BaseOperationProcessor
 
                     AdminDeleteCommentOutput result = AdminDeleteCommentOutput.builder()
                             .build();
-                    log.info("end adminDeleteComment result:{}", result);
+                    log.info("End adminDeleteComment result:{}", result);
                     return result;
                 })
                 .toEither()

@@ -33,13 +33,13 @@ public class AddCommentOperationProcessor extends BaseOperationProcessor impleme
     @Override
     public Either<Errors, AddCommentOutput> process(AddCommentInput input) {
         return Try.of(() -> {
-                    log.info("start addComment input:{}", input);
+                    log.info("Start addComment input:{}", input);
                     validate(input);
                     Comment comment = conversionService.convert(input, Comment.class);
                     Comment addedComment = commentRepository.save(comment);
 
                     AddCommentOutput result = conversionService.convert(addedComment, AddCommentOutput.class);
-                    log.info("end addComment result:{}", result);
+                    log.info("End addComment result:{}", result);
                     return result;
                 })
                 .toEither()
