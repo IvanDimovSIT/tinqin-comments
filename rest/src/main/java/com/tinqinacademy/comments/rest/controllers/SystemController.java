@@ -28,7 +28,8 @@ public class SystemController extends BaseController {
     @Operation(summary = "Admin edits a comment", description = "Admin edits a certain comment left for a room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Not Found")
     })
     @PutMapping(RestApiRoutes.SYSTEM_ADMIN_EDIT_COMMENT)
     public ResponseEntity<?> adminEditComment(
@@ -46,7 +47,8 @@ public class SystemController extends BaseController {
     @Operation(summary = "Admin deletes a comments", description = "Gets a list of comments left for a certain room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Not Found")
     })
     @DeleteMapping(RestApiRoutes.SYSTEM_ADMIN_DELETE_COMMENT)
     public ResponseEntity<?> adminDeleteComment(@PathVariable String commentId) {
