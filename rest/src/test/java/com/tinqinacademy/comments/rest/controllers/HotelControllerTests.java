@@ -5,6 +5,7 @@ import com.tinqinacademy.comments.api.RestApiRoutes;
 import com.tinqinacademy.comments.api.operations.hotel.addcomment.AddCommentInput;
 import com.tinqinacademy.comments.api.operations.hotel.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.persistence.model.Comment;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,6 @@ public class HotelControllerTests {
     @Autowired
     private ObjectMapper mapper;
 
-    private Comment comment;
 
     @BeforeEach
     public void setup() {
@@ -45,11 +45,18 @@ public class HotelControllerTests {
                 .content("Test example content")
                 .build();
 
-        this.comment = commentsRepository.save(comment);
+        commentsRepository.save(comment);
+    }
+
+    @AfterEach
+    public void teardown() {
+        commentsRepository.deleteAll();
     }
 
     @Test
     public void testGetCommentsOk() throws Exception {
+        Comment comment =commentsRepository.findAll().getFirst();
+
         mvc.perform(get(RestApiRoutes.HOTEL_GET_COMMENTS, comment.getRoomId().toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -64,6 +71,8 @@ public class HotelControllerTests {
 
     @Test
     public void testAddCommentCreated() throws Exception {
+        Comment comment = commentsRepository.findAll().getFirst();
+
         AddCommentInput input = AddCommentInput.builder()
                 .content("Test comment")
                 .authorId(UUID.randomUUID().toString())
@@ -78,6 +87,8 @@ public class HotelControllerTests {
 
     @Test
     public void testAddCommentBadRequest1() throws Exception {
+        Comment comment = commentsRepository.findAll().getFirst();
+
         AddCommentInput input = AddCommentInput.builder()
                 .content(" ")
                 .authorId(UUID.randomUUID().toString())
@@ -92,6 +103,8 @@ public class HotelControllerTests {
 
     @Test
     public void testAddCommentBadRequest2() throws Exception {
+        Comment comment = commentsRepository.findAll().getFirst();
+
         AddCommentInput input = AddCommentInput.builder()
                 .content("Test comment")
                 .authorId("123")
@@ -106,6 +119,8 @@ public class HotelControllerTests {
 
     @Test
     public void testEditCommentOk() throws Exception {
+        Comment comment = commentsRepository.findAll().getFirst();
+
         EditCommentInput input = EditCommentInput.builder()
                 .content("Updated comment")
                 .authorId(comment.getAuthorId().toString())
@@ -132,6 +147,8 @@ public class HotelControllerTests {
 
     @Test
     public void testEditCommentForbidden() throws Exception {
+        Comment comment = commentsRepository.findAll().getFirst();
+
         EditCommentInput input = EditCommentInput.builder()
                 .content("Updated comment")
                 .authorId(UUID.randomUUID().toString())
