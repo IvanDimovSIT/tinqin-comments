@@ -5,6 +5,7 @@ import com.tinqinacademy.comments.api.RestApiRoutes;
 import com.tinqinacademy.comments.api.operations.system.admineditcomment.AdminEditCommentInput;
 import com.tinqinacademy.comments.persistence.model.Comment;
 import com.tinqinacademy.comments.persistence.repository.CommentRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,6 @@ public class SystemControllerTests {
     @Autowired
     private ObjectMapper mapper;
 
-    private Comment comment;
 
     @BeforeEach
     public void setup() {
@@ -44,11 +44,18 @@ public class SystemControllerTests {
                 .content("Test example content")
                 .build();
 
-        this.comment = commentsRepository.save(comment);
+        commentsRepository.save(comment);
+    }
+
+    @AfterEach
+    public void teardown() {
+        commentsRepository.deleteAll();
     }
 
     @Test
     public void testAdminEditCommentOk() throws Exception {
+        Comment comment =commentsRepository.findAll().getFirst();
+
         AdminEditCommentInput input = AdminEditCommentInput.builder()
                 .adminId(UUID.randomUUID().toString())
                 .content("Admin example content")
@@ -63,6 +70,8 @@ public class SystemControllerTests {
 
     @Test
     public void testAdminEditCommentNotFound() throws Exception {
+        Comment comment =commentsRepository.findAll().getFirst();
+
         AdminEditCommentInput input = AdminEditCommentInput.builder()
                 .adminId(UUID.randomUUID().toString())
                 .content("Admin example content")
@@ -77,6 +86,8 @@ public class SystemControllerTests {
 
     @Test
     public void testAdminEditCommentBadRequest() throws Exception {
+        Comment comment =commentsRepository.findAll().getFirst();
+
         AdminEditCommentInput input = AdminEditCommentInput.builder()
                 .adminId(UUID.randomUUID().toString())
                 .content("")
@@ -91,6 +102,8 @@ public class SystemControllerTests {
 
     @Test
     public void testAdminDeleteCommentOk() throws Exception {
+        Comment comment =commentsRepository.findAll().getFirst();
+
         mvc.perform(delete(RestApiRoutes.SYSTEM_ADMIN_DELETE_COMMENT, comment.getId().toString()))
                 .andExpect(status().isOk());
     }
